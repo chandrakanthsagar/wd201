@@ -3,6 +3,7 @@ const fs = require("fs");
 const args = require("minimist")(process.argv.slice(1));
 let homeContent = "";
 let projectContent = "";
+let pcontent="";
 
 fs.readFile("home.html", (err, home) => {
   if (err) {
