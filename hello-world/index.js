@@ -1,3 +1,4 @@
+
 // const fs = require("fs");
 // fs.writeFile(
 //   "sample.txt",
@@ -30,4 +31,8 @@ lineDetail.question(`Please provide your name - `, (name) => {
   console.log(`Hi ${name}!`);
   lineDetail.close();
 });
-
+const hello = () => {
+    console.log("Hello Node.js!");
+  };
+  
+  hello();
