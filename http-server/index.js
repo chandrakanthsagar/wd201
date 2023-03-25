@@ -28,8 +28,7 @@ fs.readFile("registration.html", (err, result) => {
 
 
 //console.log(args);
-http
-  .createServer((request, response) => {
+http.createServer((request, response) => {
     let url = request.url;
     response.writeHeader(200, { "Content-Type": "text/html" });
     switch (url) {
