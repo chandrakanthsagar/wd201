@@ -5,6 +5,22 @@
   },
   "devDependencies": {
     "jest": "^29.5.0"
-  }
+  },
+  "name": "wd201",
+  "version": "1.0.0",
+  "main": "index.js",
+  "scripts": {
+    "test": "jest"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/chandrakanthsagar/wd201.git"
+  },
+  "author": "Chandra kanth <gobburichandrakanth7656@gmail.com>",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/chandrakanthsagar/wd201/issues"
+  },
+  "homepage": "https://github.com/chandrakanthsagar/wd201#readme",
+  "description": ""
 }
-   
