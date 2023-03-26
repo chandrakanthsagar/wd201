@@ -1,0 +1,19 @@
+{
+  "name": "todo-cli",
+  "version": "1.0.0",
+  "description": "",
+  "main": "todo.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "prepare": "cd .. && husky install todo-cli/.husky"
+  },
+  "author": "Chandra kanth <gobburichandrakanth7656@gmail.com>",
+  "license": "ISC",
+  "dependencies": {
+    "jest": "^29.5.0"
+  },
+  "devDependencies": {
+    "eslint": "^8.36.0",
+    "husky": "^8.0.3"
+  }
+}
