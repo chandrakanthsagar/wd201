@@ -8,6 +8,7 @@
   },
   "devDependencies": {},
   "scripts": {
+    "start": "index.js",
     "test": "jest"
   },
   "author": "Chandra kanth <gobburichandrakanth7656@gmail.com>",
