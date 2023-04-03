@@ -3,8 +3,10 @@
   "version": "1.0.0",
   "main": "todo.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
-    "prepare": "cd .. && husky install todo-cli/.husky"
+    "db:create:test": "NODE_ENV=test npx sequelize-cli db:create",
+    "pretest": "NODE_ENV=test npx sequelize-cli db:drop && NODE_ENV=test npx sequelize-cli db:create",
+    "test": "NODE_ENV=test jest --detectOpenHandles",
+    "prepare": "husky install"
   },
   "author": "Chandra kanth <gobburichandrakanth7656@gmail.com>",
   "license": "ISC",
