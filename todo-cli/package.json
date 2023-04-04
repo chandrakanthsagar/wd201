@@ -12,6 +12,7 @@
   "license": "ISC",
   "dependencies": {
     "jest": "^29.5.0",
+    "minimist": "^1.2.8",
     "pg": "^8.10.0",
     "pg-hstore": "^2.3.4",
     "sequelize": "^6.30.0"
