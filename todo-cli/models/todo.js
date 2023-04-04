@@ -3,6 +3,7 @@
 'use strict';
 const {  Model } = require('sequelize');
 const { Op } = require('sequelize');
+
 module.exports = (sequelize, DataTypes) => {
   class Todo extends Model {
     /**
@@ -39,11 +40,11 @@ module.exports = (sequelize, DataTypes) => {
 
     static async overdue() {
       // FILL IN HERE TO RETURN OVERDUE ITEMS
-      const today=new Date();
+      
       return Todo.findAll({
         where:{
           dueDate:{
-          [Op.lt]: today,
+          [Op.lt]: new Date(),
           },
          // completed : false
         },
@@ -55,11 +56,11 @@ module.exports = (sequelize, DataTypes) => {
     }
 
     static async dueToday() {
-      const today=new Date();
+   
       return Todo.findAll({
         where:{
           dueDate:{
-            [Op.eq]:today,
+            [Op.eq]:new Date(),
           },
         },
         order:[
@@ -70,11 +71,11 @@ module.exports = (sequelize, DataTypes) => {
     }
 
     static async dueLater() {
-      const today=new Date();
+      
       return Todo.findAll({
         where:{
           dueDate:{
-            [Op.gt]:today,
+            [Op.gt]:new Date(),
           },
         },
         order:[
