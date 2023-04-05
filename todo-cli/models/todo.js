@@ -99,7 +99,7 @@ module.exports = (sequelize, DataTypes) => {
     
     
       displayableString() {
-        let checkbox = this.completed ? "[X]" : "[ ]";
+        let checkbox = this.completed ? "[x]" : "[ ]";
         let displayDate =
           this.dueDate === new Date().toLocaleDateString("en-CA")
             ? ""
