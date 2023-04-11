@@ -23,14 +23,14 @@ module.exports = (sequelize, DataTypes) => {
       const OverdueItems=await Todo.overdue();
       const todolistItems=OverdueItems.map(todos => todos.displayableString()).join("\n");
       console.log(todolistItems);
-      console.log("\n");
+      console.log("");
 
       console.log("Due Today");
       // FILL IN HERE
       const DueItemsToday=await Todo.dueToday();
       const todolistItems1=DueItemsToday.map(todos=> todos.displayableString()).join("\n");
       console.log(todolistItems1);
-      console.log("\n");
+      console.log("");
 
       console.log("Due Later");
       // FILL IN HERE
