@@ -6,7 +6,7 @@
   "scripts": {
     "pretest": "NODE_ENV=test npx sequelize-cli db:drop && NODE_ENV=test npx sequelize-cli db:create",
     "test": "NODE_ENV=test jest --detectOpenHandles",
-    "prepare": "husky install"
+    "prepare": "cd .. && husky install todo-app/.husky"
   },
   "author": "Chandra kanth <gobburichandrakanth7656@gmail.com>",
   "license": "ISC",
@@ -16,6 +16,7 @@
     "sequelize": "^6.30.0"
   },
   "devDependencies": {
+    "husky": "^8.0.3",
     "jest": "^29.5.0",
     "sequelize-cli": "^6.6.0",
     "supertest": "^6.3.3"
