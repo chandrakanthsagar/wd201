@@ -1,3 +1,4 @@
+/* eslint-disable no-undef */
 const request = require("supertest");
 
 const db = require("../models/index");
@@ -5,7 +6,8 @@ const app = require("../app");
 
 let server, agent;
 
-describe("Todo Application", function () {
+// eslint-disable-next-line no-undef
+describe("Todo test suite", function () {
   beforeAll(async () => {
     await db.sequelize.sync({ force: true });
     server = app.listen(3000, () => {});
@@ -86,7 +88,7 @@ describe("Todo Application", function () {
     var c = await agent.delete(`/todos/${todoID}`).send();
     expect(c.text).toBe("true");
 
-    var c = await agent.delete(`/todos/${todoID}`).send();
+     c = await agent.delete(`/todos/${todoID}`).send();
     expect(c.text).toBe("false");
   });
 });
