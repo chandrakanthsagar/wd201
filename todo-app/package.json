@@ -16,6 +16,9 @@
     "pg": "^8.10.0",
     "sequelize": "^6.30.0"
   },
+  "lint-staged":{
+    "**/*":"prettier --write --ignore-unknown"
+  },
   "devDependencies": {
     "eslint": "^8.38.0",
     "husky": "^8.0.3",
