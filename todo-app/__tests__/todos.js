@@ -81,14 +81,14 @@ describe("Todo test suite", function () {
       completed: false,
     });
     const parsedResponse = JSON.parse(response.text);
-    const todoID = parsedResponse.id;
-  
-    const deleteResponse = await agent.delete(`/todos/${todoID}`).send();
-    expect(deleteResponse.statusCode).toBe(200);
-    expect(deleteResponse.header["content-type"]).toBe(
-      "application/json; charset=utf-8"
-    );
-    const parsedDeleteResponse = JSON.parse(deleteResponse.text);
-    expect(parsedDeleteResponse).toBe(true);
+    const todoID = parsedResponse.id; //extracting the id of above added todo
+
+    expect(parsedResponse.completed).toBe(false); //first it is false   befor completing todo
+
+    var c = await agent.delete(`/todos/${todoID}`).send();
+    expect(c.text).toBe("true");
+
+     c = await agent.delete(`/todos/${todoID}`).send();
+    expect(c.text).toBe("false");
   });
 });
