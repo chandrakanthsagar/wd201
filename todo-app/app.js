@@ -7,6 +7,8 @@ const path = require("path");// importing path value
 app.use(bodyParser.json());
 
 app.set("view engine","ejs");//rendering your file to application
+app.use(express.static(path.join(__dirname,'public')));//to use particual location to render all static values 
+
 app.get("/",async (request,response)=>{
   const allTodos = await Todo.getTodos();
   if(request.accepts("html")){
@@ -15,17 +17,9 @@ app.get("/",async (request,response)=>{
     });
   }
   else{
-
       response.json({allTodos})
   }
- 
 });
-
-
-app.get("/", function (request, response) {
-  response.send("Hello World");
-});
-app.use(express.static(path.join(__dirname,'public')));//to use particual location to render all static values 
 app.get("/todos", async function (_request, response) {
   console.log("Processing list of all Todos ...");
   // FILL IN YOUR CODE HERE
