@@ -8,7 +8,7 @@
     "test": "NODE_ENV=test jest --detectOpenHandles",
     "prepare": "cd .. && husky install todo-app/.husky",
     "start": "nodemon -e js ,ejs",
-    "start:prod":"node index.js"
+    "start:prod": "node index.js"
   },
   "author": "Chandra kanth <gobburichandrakanth7656@gmail.com>",
   "license": "ISC",

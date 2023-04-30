@@ -88,7 +88,7 @@ describe("Todo test suite", function () {
     var c = await agent.delete(`/todos/${todoID}`).send();
     expect(c.text).toBe("true");
 
-     c = await agent.delete(`/todos/${todoID}`).send();
+    c = await agent.delete(`/todos/${todoID}`).send();
     expect(c.text).toBe("false");
   });
 });
