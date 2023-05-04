@@ -7,3 +7,7 @@ body {
 .Todo-Item:hover .trash-icon{
   display: block;
 }
+h5, span {
+  display: inline-block;
+  vertical-align: middle;
+}
