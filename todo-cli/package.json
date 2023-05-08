@@ -6,7 +6,9 @@
     "db:create:test": "NODE_ENV=test npx sequelize-cli db:create",
     "pretest": "NODE_ENV=test npx sequelize-cli db:drop && NODE_ENV=test npx sequelize-cli db:create",
     "test": "NODE_ENV=test jest --detectOpenHandles",
-    "prepare": "husky install"
+    "prepare": "husky install",
+    "lint": "eslint .",
+    "precommit": "npm run lint"
   },
   "author": "Chandra kanth <gobburichandrakanth7656@gmail.com>",
   "license": "ISC",
@@ -15,11 +17,19 @@
     "minimist": "^1.2.8",
     "pg": "^8.10.0",
     "pg-hstore": "^2.3.4",
-    "sequelize": "^6.30.0"
+    "sequelize": "^6.31.1"
+  },
+  "lint-staged": {
+    "*.js": [
+      "eslint",
+      "prettier --write ."
+    ]
   },
   "devDependencies": {
     "eslint": "^8.36.0",
     "husky": "^8.0.3",
+    "lint-staged": "^13.2.2",
+    "prettier": "^2.8.8",
     "sequelize-cli": "^6.6.0"
   },
   "description": ""

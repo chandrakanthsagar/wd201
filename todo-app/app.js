@@ -1,24 +1,35 @@
 /* eslint-disable no-undef */
 const express = require("express");
 const app = express(); // importing express value
-const { Todo } = require("./models");
+
 const bodyParser = require("body-parser");
 const path = require("path"); // importing path value
 app.use(bodyParser.json());
+app.use(express.urlencoded({extended: false}));
 
 app.set("view engine", "ejs"); //rendering your file to application
 app.use(express.static(path.join(__dirname, "public"))); //to use particual location to render all static values
 
+const { Todo } = require("./models");
+
 app.get("/", async (request, response) => {
-  const allTodos = await Todo.getTodos();
-  if (request.accepts("html")) {
-    response.render("index", {
-      allTodos,
-    });
-  } else {
-    response.json({ allTodos });
-  }
-});
+   const overdue = await Todo.overdue();
+   const dueToday = await Todo.dueToday();
+   const dueLater = await Todo.dueLater();
+   response.render("index",{
+    title : "Todo application",
+    overdue,
+    dueToday,
+    dueLater,
+   });
+
+   
+    
+   
+   
+  });
+ 
+
 app.get("/todos", async function (_request, response) {
   console.log("Processing list of all Todos ...");
   // FILL IN YOUR CODE HERE
@@ -46,8 +57,16 @@ app.get("/todos/:id", async function (request, response) {
 
 app.post("/todos", async function (request, response) {
   try {
-    const todo = await Todo.addTodo(request.body);
-    return response.json(todo);
+    
+    
+    const todo = await Todo.addTodo({
+      title:request.body.title,
+      dueDate:request.body.dueDate,
+    });
+    
+    
+
+    return response.redirect("/");
   } catch (error) {
     console.log(error);
     return response.status(422).json(error);
