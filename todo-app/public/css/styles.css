@@ -4,10 +4,11 @@ body {
   font-family: "Franklin Gothic Medium", "Arial Narrow", Arial, sans-serif;
 }
 
-.Todo-Item:hover .trash-icon{
+.Todo-Item:hover .trash-icon {
   display: block;
 }
-h5, span {
+h5,
+span {
   display: inline-block;
   vertical-align: middle;
 }
