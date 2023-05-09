@@ -1,6 +1,6 @@
 /* eslint-disable no-undef */
 
-const app = require("./app");
+const app = require("./app"); // importing app module
 
 const port = process.env.PORT || 3000;
 app.listen(port, () => {

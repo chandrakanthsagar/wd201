@@ -53,9 +53,11 @@
                     
                 </ul>
                 <h5>Due Today </h5>
-                <span id="count-due-today" class="bg-green-600 inline-block text"> 3 </span>
-                <ul>
-                    <li class="Todo-Item">
+                <span id="count-due-today" class="bg-green-600 inline-block text"><%= dueToday.length %> </span>
+                <ul class="list-none">
+                    <% for(var i = 0 ;i<dueToday.length; i++) { %>
+                        <% }%>
+                        <li class="Todo-Item">
                         
                         <div class="flex items-center w-fit my-2 px-2 py-1 rounded hover:bg-purple-50">
                         <input id="to-do-check3" type="checkbox" class="w-4 h-4 text-blue-600 bg-gray-600" >
@@ -68,6 +70,7 @@
                           
                         </div>
                     </li>
+                   
                     <li class="Todo-Item">
                         
                         <div class="flex items-center w-fit my-2 px-2 py-1 rounded hover:bg-purple-50">
@@ -94,14 +97,16 @@
                           
                         </div>
                     </li>
-
+                   
                 </ul>
                 
                     <h5 >Due Later </h5>
-                    <span id="count-due-later" class="bg-green-600 inline-block"> 1 </span>
+                    <span id="count-due-later" class="bg-green-600 inline-block"> <%= dueLater.length %></span>
                     
                
-                <ul>
+                <ul class="list-none">
+                    <% for(var i = 0 ;i<dueLater.length;i++) {%>
+                        <% }%>
                     <li class="Todo-Item">
                         
                         <div class="flex items-center w-fit my-2 px-2 py-1 rounded hover:bg-purple-50">
@@ -115,7 +120,7 @@
                           
                         </div>
                     </li>
-                 
+                
                 </ul>
 
             </div>

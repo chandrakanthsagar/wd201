@@ -5,7 +5,7 @@ const app = express(); // importing express value
 const bodyParser = require("body-parser");
 const path = require("path"); // importing path value
 app.use(bodyParser.json());
-app.use(express.urlencoded({extended: false}));
+app.use(express.urlencoded({ extended: false }));
 
 app.set("view engine", "ejs"); //rendering your file to application
 app.use(express.static(path.join(__dirname, "public"))); //to use particual location to render all static values
@@ -13,22 +13,16 @@ app.use(express.static(path.join(__dirname, "public"))); //to use particual loca
 const { Todo } = require("./models");
 
 app.get("/", async (request, response) => {
-   const overdue = await Todo.overdue();
-   const dueToday = await Todo.dueToday();
-   const dueLater = await Todo.dueLater();
-   response.render("index",{
-    title : "Todo application",
+  const overdue = await Todo.overdue();
+  const dueToday = await Todo.dueToday();
+  const dueLater = await Todo.dueLater();
+  response.render("index", {
+    title: "Todo application",
     overdue,
     dueToday,
     dueLater,
-   });
-
-   
-    
-   
-   
   });
- 
+});
 
 app.get("/todos", async function (_request, response) {
   console.log("Processing list of all Todos ...");
@@ -56,15 +50,13 @@ app.get("/todos/:id", async function (request, response) {
 });
 
 app.post("/todos", async function (request, response) {
+  console.log("creating a todo", request.body);
   try {
-    
-    
+    // eslint-disable-next-line no-unused-vars
     const todo = await Todo.addTodo({
-      title:request.body.title,
-      dueDate:request.body.dueDate,
+      title: request.body.title,
+      dueDate: request.body.dueDate,
     });
-    
-    
 
     return response.redirect("/");
   } catch (error) {
@@ -74,7 +66,7 @@ app.post("/todos", async function (request, response) {
 });
 
 app.put("/todos/:id/markAsCompleted", async function (request, response) {
-  const todo = await Todo.findByPk(request.params.id);
+  const todo = await Todo.findByPk(request.params.id); // to get the parameter that is passed through the url
   try {
     const updatedTodo = await todo.markAsCompleted();
     return response.json(updatedTodo);
@@ -102,8 +94,5 @@ app.delete("/todos/:id", async function (request, response) {
   // Then, we have to respond back with true/false based on whether the Todo was deleted or not.
   // response.send(true)
 });
-app.get("/todos", async (request, response) => {
-  const todoItems = await Todo.gettodo();
-  response.json(todoItems);
-});
+
 module.exports = app;
