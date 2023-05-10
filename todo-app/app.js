@@ -1,7 +1,8 @@
 /* eslint-disable no-undef */
 const express = require("express");
-const app = express(); // importing express value
-
+const app = express(); // importing express vv
+var csrf = require("csurf");
+var cookieParser = require("cookie-parser");
 const bodyParser = require("body-parser");
 const path = require("path"); // importing path value
 app.use(bodyParser.json());
@@ -9,19 +10,34 @@ app.use(express.urlencoded({ extended: false }));
 
 app.set("view engine", "ejs"); //rendering your file to application
 app.use(express.static(path.join(__dirname, "public"))); //to use particual location to render all static values
-
+app.use(cookieParser("shh! some secret string "));
+app.use(csrf({ cookie: true }));
 const { Todo } = require("./models");
 
-app.get("/", async (request, response) => {
+app.get("/", async function (request, response) {
+  const allTodos = await Todo.getTodos();
   const overdue = await Todo.overdue();
   const dueToday = await Todo.dueToday();
   const dueLater = await Todo.dueLater();
-  response.render("index", {
-    title: "Todo application",
-    overdue,
-    dueToday,
-    dueLater,
-  });
+  const completedItems = await Todo.completedItems();
+  if (request.accepts("html")) {
+    response.render("index", {
+      allTodos,
+      overdue,
+      dueToday,
+      dueLater,
+      completedItems,
+      csrfToken: request.csrfToken(),
+    });
+  } else {
+    response.json({
+      allTodos,
+      overdue,
+      dueToday,
+      dueLater,
+      completedItems,
+    });
+  }
 });
 
 app.get("/todos", async function (_request, response) {
@@ -57,7 +73,6 @@ app.post("/todos", async function (request, response) {
       title: request.body.title,
       dueDate: request.body.dueDate,
     });
-
     return response.redirect("/");
   } catch (error) {
     console.log(error);
@@ -65,10 +80,10 @@ app.post("/todos", async function (request, response) {
   }
 });
 
-app.put("/todos/:id/markAsCompleted", async function (request, response) {
+app.put("/todos/:id", async function (request, response) {
   const todo = await Todo.findByPk(request.params.id); // to get the parameter that is passed through the url
   try {
-    const updatedTodo = await todo.markAsCompleted();
+    const updatedTodo = await todo.setCompletionStatus(request.body.completed);
     return response.json(updatedTodo);
   } catch (error) {
     console.log(error);
@@ -80,12 +95,8 @@ app.delete("/todos/:id", async function (request, response) {
   console.log("We have to delete a Todo with ID: ", request.params.id);
   // FILL IN YOUR CODE HERE
   try {
-    const cd = await Todo.destroy({
-      where: {
-        id: request.params.id,
-      },
-    });
-    response.send(cd > 0);
+    const st = await Todo.remove(request.params.id);
+    return response.json(st > 0);
   } catch (error) {
     console.log(error);
     return response.status(422).json(error);

@@ -25,6 +25,7 @@ module.exports = (sequelize, DataTypes) => {
     static async overdue() {
       return this.findAll({
         where: {
+          completed: false,
           dueDate: {
             [Op.lt]: new Date().toISOString().split("T")[0], //
           },
@@ -34,6 +35,7 @@ module.exports = (sequelize, DataTypes) => {
     static async dueToday() {
       return this.findAll({
         where: {
+          completed: false,
           dueDate: {
             [Op.eq]: new Date().toISOString().split("T")[0],
           },
@@ -43,15 +45,30 @@ module.exports = (sequelize, DataTypes) => {
     static async dueLater() {
       return this.findAll({
         where: {
+          completed: false,
           dueDate: {
             [Op.gt]: new Date().toISOString().split("T")[0],
           },
         },
       });
     }
+    static async remove(id) {
+      return this.destroy({
+        where: {
+          id,
+        },
+      });
+    }
 
-    markAsCompleted() {
-      return this.update({ completed: true });
+    setCompletionStatus(status) {
+      return this.update({ completed: status });
+    }
+    static async completedItems() {
+      return this.findAll({
+        where: {
+          completed: true,
+        },
+      });
     }
   }
   Todo.init(

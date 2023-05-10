@@ -3,20 +3,47 @@
 <head>
     <link rel="stylesheet" href="./css/styles.css">
     <meta charset="UTF-8">
+    <meta name="csrf-token" content="<%= csrfToken %>"/>
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>To-do-Manager</title>
     <script src="https://cdn.tailwindcss.com"></script>
 <script>
-    function updateTodo(id){
-        fetch(`{/todos/${id}/markAscompleted`,{
+    var token = document
+    .querySelector('meta[name="csrf-token"]')
+    .getAttribute("content");
+
+    function updateTodo(id, status){
+        fetch(`/todos/${id}`,{
             method :"put",
             headers :{"Content-Type": "application/json"},
+            body:JSON.stringify({
+                "_csrf":token,
+                "completed": !status
+
+            })
         })
         .then((res) =>{
-            window.location.reload();
+            if(res.ok){
+                window.location.reload();
+            }
         })
         .catch((err)=>console.error(err));
+    }
+    function deleteTodo(id){
+        fetch(`/todos/${id}`,{
+            method:"delete",
+            headers:{"Content-Type": "application/json"},
+            body:JSON.stringify({
+                "_csrf":token
+            })
+        })
+        .then((res) =>{
+            if(res.ok){
+                window.location.reload();
+            }
+        })
+        .catch((error)=> console.error(err));
     }
 </script>
 </head>
@@ -26,6 +53,7 @@
         <div class=" col-start-3 col-span-3 ">
             <%- include('header.ejs') %>
             <form action="/todos" method="post">
+                <input type="hidden" name="_csrf" value="<%= csrfToken %>" />
                 <div class="flex gap-2 py-4"> 
                     <div class="flex-auto">
                         <input type="text" name="title" placeholder="what's next?"class="border border-gray-300 rounded text-gray-900 w-full p-2 text-sm" required>
@@ -45,6 +73,7 @@
                 <%- include('todos.ejs',{title:"Overdue",data :overdue}) %>
                 <%- include('todos.ejs',{title:"Due Today",data:dueToday}) %>
                 <%- include('todos.ejs',{title:"Due Later",data:dueLater}) %>
+                <%- include('todos.ejs',{title:"Completed Items",data:completedItems}) %>
             </div>
  
         </div>
