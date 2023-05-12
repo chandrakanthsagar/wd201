@@ -16,6 +16,14 @@ module.exports = (sequelize, DataTypes) => {
     }
 
     static addTodo({ title, dueDate }) {
+      if (!title) {
+        throw new Error("Title is required.");
+      }
+
+      if (!dueDate) {
+        throw new Error("Due date is required.");
+      }
+
       return this.create({ title: title, dueDate: dueDate, completed: false });
     }
     static getTodos() {
