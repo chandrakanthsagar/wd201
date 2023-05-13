@@ -68,14 +68,15 @@ module.exports = (sequelize, DataTypes) => {
       });
     }
 
-    setCompletionStatus(status) {
-      return this.update({ completed: status });
+    setCompletionStatus(completed) {
+      return this.update({ completed: completed });
     }
     static async completedItems() {
       return this.findAll({
         where: {
           completed: true,
         },
+        order: [["id", "ASC"]],
       });
     }
   }
