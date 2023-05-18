@@ -70,6 +70,7 @@ app.post("/todos", async function (request, response) {
       title: request.body.title,
       dueDate: request.body.dueDate,
     });
+    console.log(response);
     return response.redirect("/");
   } catch (error) {
     console.log(error);
