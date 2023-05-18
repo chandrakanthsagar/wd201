@@ -7,7 +7,9 @@ const bodyParser = require("body-parser");
 const path = require("path");
 
 const { Todo, User } = require("./models");
+const bcrpyt = require("bcrypt");
 
+const saltRounds = 10;
 app.use(bodyParser.json());
 app.use(express.urlencoded({ extended: false }));
 
@@ -42,10 +44,16 @@ passport.use(
     (username, password, done) => {
       User.findOne({ where: { email: username } })
         .then(async (user) => {
-          return done(null, user);
+          const result = await bcrpyt.compare(password, user.password);
+
+          if (result) {
+            return done(null, user);
+          } else {
+            return done("Invalid Password");
+          }
         })
         .catch((error) => {
-          return error;
+          return done(error);
         });
     }
   )
@@ -164,15 +172,19 @@ app.get("/signup", (request, response) => {
     csrfToken: request.csrfToken(),
   });
 });
+app.get("/login", (request, response) => {
+  response.render("login", { title: "Login", csrfToken: request.csrfToken() });
+});
 app.post("/users", async (request, response) => {
   console.log(request.body.firstName);
+  const hashedpwd = await bcrpyt.hash(request.body.password, saltRounds);
   try {
     // eslint-disable-next-line no-unused-vars
     const user = await User.create({
       firstName: request.body.firstName,
       lastName: request.body.lastName,
       email: request.body.email,
-      password: request.body.password,
+      password: hashedpwd,
     });
     request.login(user, (err) => {
       if (err) {
@@ -184,5 +196,14 @@ app.post("/users", async (request, response) => {
     console.log(error);
   }
 });
+app.post(
+  "/session",
+  passport.authenticate("local", { failureRedirect: "/login" }),
+  (request, response) => {
+    // we are calling this method for authentications
+    console.log(request.user);
+    response.redirect("/todos");
+  }
+);
 
 module.exports = app;
