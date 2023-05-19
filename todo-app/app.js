@@ -84,7 +84,7 @@ app.get(
   "/todos",
   connectEnsureLogin.ensureLoggedIn(),
   async function (request, response) {
-    const loggeduser = await request.user.id;
+    const loggeduser = request.user.id;
     const allTodos = await Todo.getTodos(loggeduser);
     const overdue = await Todo.overdue(loggeduser);
     const dueToday = await Todo.dueToday(loggeduser);
