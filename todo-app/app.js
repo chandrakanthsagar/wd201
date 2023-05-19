@@ -110,15 +110,6 @@ app.get(
     }
   }
 );
-app.get("/todos", async function (request, response) {
-  try {
-    const todos = await Todo.findAll();
-    return response.send(todos);
-  } catch (error) {
-    console.log(error);
-    return response.status(422).json(error);
-  }
-});
 
 app.get("/todos/:id", async function (request, response) {
   try {
