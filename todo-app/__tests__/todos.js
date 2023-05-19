@@ -41,17 +41,17 @@ describe("Todo test suite", function () {
     expect(res.statusCode).toBe(302);
   });
 
-  // test("Creates a todo and responds with json at /todos POST endpoint", async () => {
-  //   const res = await agent.get("/");
-  //   const csrfToken = extractCsrfToken(res);
-  //   const response = await agent.post("/todos").send({
-  //     title: "Buy milk",
-  //     dueDate: new Date().toISOString(),
-  //     completed: false,
-  //     _csrf: csrfToken,
-  //   });
-  //   expect(response.statusCode).toBe(302);
-  // });
+  test("Creates a todo and responds with json at /todos POST endpoint", async () => {
+    const res = await agent.get("/todos");
+    const csrfToken = extractCsrfToken(res);
+    const response = await agent.post("/todos").send({
+      title: "Buy milk",
+      dueDate: new Date().toISOString(),
+      completed: false,
+      _csrf: csrfToken,
+    });
+    expect(response.statusCode).toBe(302);
+  });
 
   // test("Update a todo with given ID as complete /incomplete ", async () => {
   //   let res = await agent.get("/todos");

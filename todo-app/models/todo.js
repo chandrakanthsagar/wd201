@@ -53,10 +53,11 @@ module.exports = (sequelize, DataTypes) => {
       return this.findAll({
         where: {
           completed: false,
-          userId,
+
           dueDate: {
             [Op.eq]: new Date().toISOString().split("T")[0],
           },
+          userId,
         },
       });
     }
@@ -64,7 +65,7 @@ module.exports = (sequelize, DataTypes) => {
       return this.findAll({
         where: {
           completed: false,
-          userId,
+
           dueDate: {
             [Op.gt]: new Date().toISOString().split("T")[0],
           },
