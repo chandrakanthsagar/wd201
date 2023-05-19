@@ -6,6 +6,10 @@ const cookieParser = require("cookie-parser");
 const bodyParser = require("body-parser");
 const path = require("path");
 
+app.set("view engine", "ejs");
+app.use(express.static(path.join(__dirname, "public")));
+app.set("views", path.join(__dirname, "views"));
+
 const { Todo, User } = require("./models");
 const bcrpyt = require("bcrypt");
 
@@ -13,16 +17,15 @@ const saltRounds = 10;
 app.use(bodyParser.json());
 app.use(express.urlencoded({ extended: false }));
 
-app.set("view engine", "ejs");
-app.use(express.static(path.join(__dirname, "public")));
 app.use(cookieParser("shh! some secret string"));
 app.use(csrf({ cookie: true }));
 
 const passport = require("passport");
 const connectEnsureLogin = require("connect-ensure-login");
 const session = require("express-session");
+const flash = require("connect-flash");
 const LocalStrategy = require("passport-local");
-
+app.use(flash());
 app.use(
   session({
     secret: "my_super-secret-key-217263018951768",
@@ -31,6 +34,10 @@ app.use(
     },
   })
 );
+app.use(function (request, response, next) {
+  response.locals.messages = request.flash();
+  next();
+});
 
 app.use(passport.initialize());
 app.use(passport.session());
@@ -43,13 +50,12 @@ passport.use(
     },
     (username, password, done) => {
       User.findOne({ where: { email: username } })
-        .then(async (user) => {
-          const result = await bcrpyt.compare(password, user.password);
-
+        .then(async function (user) {
+          const result = await bcrypt.compare(password, user.password);
           if (result) {
             return done(null, user);
           } else {
-            return done("Invalid Password");
+            return done(null, false, { message: "Invalid password" });
           }
         })
         .catch((error) => {
@@ -206,7 +212,10 @@ app.post("/users", async (request, response) => {
 });
 app.post(
   "/session",
-  passport.authenticate("local", { failureRedirect: "/login" }),
+  passport.authenticate("local", {
+    failureRedirect: "/login",
+    failureFlash: true,
+  }),
   (request, response) => {
     // we are calling this method for authentications
     console.log(request.user);
