@@ -18,7 +18,7 @@ module.exports = (sequelize, DataTypes) => {
       });
     }
 
-    static addTodo({ title, dueDate }) {
+    static addTodo({ title, dueDate, userId }) {
       if (!title) {
         throw new Error("Title is required.");
       }
@@ -27,36 +27,44 @@ module.exports = (sequelize, DataTypes) => {
         throw new Error("Due date is required.");
       }
 
-      return this.create({ title: title, dueDate: dueDate, completed: false });
+      return this.create({
+        title: title,
+        dueDate: dueDate,
+        completed: false,
+        userId,
+      });
     }
     static getTodos() {
       return this.findAll();
     }
 
-    static async overdue() {
+    static async overdue(userId) {
       return this.findAll({
         where: {
           completed: false,
+          userId,
           dueDate: {
             [Op.lt]: new Date().toISOString().split("T")[0], //
           },
         },
       });
     }
-    static async dueToday() {
+    static async dueToday(userId) {
       return this.findAll({
         where: {
           completed: false,
+          userId,
           dueDate: {
             [Op.eq]: new Date().toISOString().split("T")[0],
           },
         },
       });
     }
-    static async dueLater() {
+    static async dueLater(userId) {
       return this.findAll({
         where: {
           completed: false,
+          userId,
           dueDate: {
             [Op.gt]: new Date().toISOString().split("T")[0],
           },
@@ -74,11 +82,12 @@ module.exports = (sequelize, DataTypes) => {
     setCompletionStatus(completed) {
       return this.update({ completed: completed });
     }
-    static async completedItems() {
+    static async completedItems(userId) {
       return this.findAll({
         where: {
           completed: true,
         },
+        userId,
         order: [["id", "ASC"]],
       });
     }

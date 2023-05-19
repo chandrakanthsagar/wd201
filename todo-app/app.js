@@ -134,14 +134,16 @@ app.post(
   connectEnsureLogin.ensureLoggedIn(),
   async function (request, response) {
     console.log("creating a todo", request.body);
+    console.log(request.user.id);
     try {
       // eslint-disable-next-line no-unused-vars
-      const todo = await Todo.addTodo({
+      await Todo.addTodo({
         title: request.body.title,
         dueDate: request.body.dueDate,
+        userId: request.user.id,
       });
       console.log(response);
-      return response.redirect("/");
+      return response.redirect("/todos");
     } catch (error) {
       console.log(error);
       return response.status(422).json(error);
