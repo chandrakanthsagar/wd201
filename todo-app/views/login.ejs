@@ -15,8 +15,16 @@
             <div class="col-start-3 col-span-2">
                 <%- include ('header.ejs') %>
                 <h6 class="py-4">Login into your Account</h6>
+                <div>
+                
+                    <% if(messages && messages.error && messages.error.length > 0)  { %>
+                        <% for(var i=0; i<messages.error.length; i++) { %>
+                                <li> <%= messages.error[i] %></li>
+                        <% } %>
+                      <% } %>
+                </div>
                 <form action="/session" method="post">
-                    <%= message.error %>
+                   
                     <input type="hidden" name="_csrf" value="<%= csrfToken %>">
                     
                     <div class="py-3">
@@ -31,11 +39,7 @@
                         <button type="submit" class="text-white bg-green-800 font-medium rounded px-5 py-2">Sign in</button>
                     </div>
                 </form>
-                <% if(messages && messages.error && messages.error.length > 0)  { %>
-                    <% for(var i=0; i<messages.error.length; i++) { %>
-                            <li> <%= messages.error[i] %></li>
-                    <% } %>
-                  <% } %>
+                
             </div>
         </div>
     </body>

@@ -34,8 +34,13 @@ module.exports = (sequelize, DataTypes) => {
         userId,
       });
     }
-    static getTodos() {
-      return this.findAll();
+    static getTodos(userId) {
+      // retriving all todos
+      return this.findAll({
+        where: {
+          userId,
+        },
+      });
     }
 
     static async overdue(userId) {
@@ -89,17 +94,27 @@ module.exports = (sequelize, DataTypes) => {
       return this.findAll({
         where: {
           completed: true,
+          userId,
         },
-        userId,
+
         order: [["id", "ASC"]],
       });
     }
   }
   Todo.init(
     {
-      title: DataTypes.STRING,
-      dueDate: DataTypes.DATEONLY,
-      completed: DataTypes.BOOLEAN,
+      title: {
+        type: DataTypes.STRING,
+        allowNull: false,
+      },
+      dueDate: {
+        type: DataTypes.DATEONLY,
+        allowNull: false,
+      },
+      completed: {
+        type: DataTypes.BOOLEAN,
+        defaultValue: false,
+      },
     },
     {
       sequelize,
